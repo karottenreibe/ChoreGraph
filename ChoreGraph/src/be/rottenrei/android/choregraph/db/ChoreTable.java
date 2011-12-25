@@ -31,7 +31,7 @@ public class ChoreTable extends TableBase<Chore> {
 	}
 
 	@Override
-	protected TableSerializer<Chore> getSerializer() {
+	public TableSerializer<Chore> getSerializer() {
 		return serializer;
 	}
 

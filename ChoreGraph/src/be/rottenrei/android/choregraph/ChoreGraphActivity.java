@@ -1,13 +1,52 @@
 package be.rottenrei.android.choregraph;
 
-import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+import be.rottenrei.android.choregraph.db.ChoreTable;
+import be.rottenrei.android.choregraph.db.Database;
+import be.rottenrei.android.choregraph.model.Chore;
+import be.rottenrei.android.lib.db.ModelCursorAdapterBase;
 
-public class ChoreGraphActivity extends Activity {
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
+public class ChoreGraphActivity extends ListActivity {
+
+	private Database db;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+		ListView listView = getListView();
+		View headerView = getLayoutInflater().inflate(R.layout.list_header,
+				listView, false);
+		listView.addHeaderView(headerView);
+
+		db = new Database(this).open();
+		ChoreTable table = db.getChoreTable();
+		setListAdapter(new ChoreCursorAdapter(this, table));
+	}
+
+	@Override
+	protected void onDestroy() {
+		db.close();
+		super.onDestroy();
+	}
+
+	private class ChoreCursorAdapter extends ModelCursorAdapterBase<Chore> {
+
+		public ChoreCursorAdapter(Context context, ChoreTable table) {
+			super(context, table, R.layout.list_item);
+		}
+
+		@Override
+		protected void fillView(View view, Chore chore) {
+			TextView nameText = (TextView) view.findViewById(R.id.nameText);
+			nameText.setText(chore.getName());
+		}
+
+	}
+
 }
