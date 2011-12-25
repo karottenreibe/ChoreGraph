@@ -1,6 +1,4 @@
 *.apk
-.project
-.classpath
 bin/
 gen/
 *.log
