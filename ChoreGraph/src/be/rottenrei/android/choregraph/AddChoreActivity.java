@@ -1,5 +1,7 @@
 package be.rottenrei.android.choregraph;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,6 +70,7 @@ public class AddChoreActivity extends Activity {
 		chore.setName(nameEditor.getText().toString());
 		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
 		chore.setCycleDays(Integer.parseInt(cycleDaysPicker.getText().toString()));
+		chore.setLastTimeDone(new Date().getTime());
 		return chore;
 	}
 
