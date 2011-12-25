@@ -12,12 +12,18 @@
 	    <EditText
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:id="@+id/nameEditor" />
+	        android:id="@+id/nameEditor"
+	        android:text="@string/name" >
+
+	        <requestFocus />
+	    </EditText>
 	
-	    <NumberPicker
+	    <EditText
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:id="@+id/cycleDaysPicker" />
+	        android:id="@+id/cycleDaysPicker"
+	        android:inputType="number"
+	        android:text="7" />
 	
 	</LinearLayout>
     

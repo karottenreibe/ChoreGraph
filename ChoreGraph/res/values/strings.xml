@@ -3,8 +3,10 @@
 
     <string name="app_name">ChoreGraph</string>
     <string name="add">Add...</string>
+    <string name="name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="no_name">You need to give the chore a name</string>
+    <string name="no_database">There seems to be a problem with the database</string>
 
 </resources>

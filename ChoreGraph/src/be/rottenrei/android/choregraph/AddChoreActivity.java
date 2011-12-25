@@ -8,7 +8,6 @@ import android.widget.EditText;
 import be.rottenrei.android.choregraph.model.Chore;
 import be.rottenrei.android.choregraph.model.ChoreTransport;
 import be.rottenrei.android.lib.util.UIUtils;
-import be.rottenrei.android.lib.views.NumberPicker;
 
 /**
  * Adds a new chore.
@@ -59,16 +58,16 @@ public class AddChoreActivity extends Activity {
 	private void setChore(Chore chore) {
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);
 		nameEditor.setText(chore.getName());
-		NumberPicker cycleDaysPicker = (NumberPicker) findViewById(R.id.cycleDaysPicker);
-		cycleDaysPicker.setCurrent(chore.getCycleDays());
+		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
+		cycleDaysPicker.setText(Integer.toString(chore.getCycleDays()));
 	}
 
 	private Chore getChore() {
 		Chore chore = new Chore();
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);
 		chore.setName(nameEditor.getText().toString());
-		NumberPicker cycleDaysPicker = (NumberPicker) findViewById(R.id.cycleDaysPicker);
-		chore.setCycleDays(cycleDaysPicker.getCurrent());
+		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
+		chore.setCycleDays(Integer.parseInt(cycleDaysPicker.getText().toString()));
 		return chore;
 	}
 

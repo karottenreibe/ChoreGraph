@@ -14,6 +14,10 @@ public class ChoreTransport implements Parcelable {
 		this.chore = chore;
 	}
 
+	public Chore getChore() {
+		return chore;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

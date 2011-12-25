@@ -2,6 +2,7 @@ package be.rottenrei.android.choregraph;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 import be.rottenrei.android.choregraph.db.ChoreTable;
 import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
+import be.rottenrei.android.choregraph.model.ChoreTransport;
+import be.rottenrei.android.lib.db.DatabaseException;
 import be.rottenrei.android.lib.db.ModelCursorAdapterBase;
+import be.rottenrei.android.lib.util.ExceptionUtils;
 
 public class ChoreGraphActivity extends ListActivity implements OnClickListener {
 
@@ -54,7 +58,22 @@ public class ChoreGraphActivity extends ListActivity implements OnClickListener 
 
 	@Override
 	public void onClick(View arg0) {
-		// TODO add new chore
+		Intent intent = new Intent(this, AddChoreActivity.class);
+		startActivityForResult(intent, 0);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			ChoreTransport transport = data.getParcelableExtra(AddChoreActivity.CHORE_EXTRA);
+			try {
+				db.getChoreTable().insert(transport.getChore());
+			} catch (DatabaseException e) {
+				ExceptionUtils.handleExceptionWithMessage(e, this, R.string.no_database, ChoreGraphActivity.class);
+			}
+			ChoreCursorAdapter adapter = (ChoreCursorAdapter) getListAdapter();
+			adapter.getCursor().requery();
+		}
 	}
 
 }
