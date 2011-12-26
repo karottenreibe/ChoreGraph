@@ -1,5 +1,7 @@
 package be.rottenrei.android.choregraph;
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.PendingIntent;
@@ -44,6 +46,15 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 		} finally {
 			db.close();
 		}
+		chores = new LinkedList<Chore>();
+		for (int i = 0; i <= 10; i++) {
+			Chore c = new Chore();
+			c.setCycleDays(5);
+			c.setLastTimeDone(new Date().getTime() - i*24*3600*1000);
+			c.setName("Bar " + i);
+			chores.add(c);
+		}
+		// TODO handle no chores case
 		ChoreGraphView view = new ChoreGraphView(context, chores);
 		view.renderTo(views, R.id.widget);
 	}

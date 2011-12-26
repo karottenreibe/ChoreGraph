@@ -7,8 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.View;
 import android.widget.RemoteViews;
+import be.rottenrei.android.choregraph.ChoreGraphLayouter.Bar;
+import be.rottenrei.android.choregraph.ChoreGraphLayouter.Graph;
 import be.rottenrei.android.choregraph.model.Chore;
 
 /**
@@ -36,50 +40,45 @@ public class ChoreGraphView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int min = 0;
-		int max = 0;
-		for (Chore chore : chores) {
-			min = Math.min(min, chore.getDaysUntilDue());
-			max = Math.max(max, chore.getDaysUntilDue());
-		}
-		int baseline = getHeight() - max;
-		drawBaseline(canvas, baseline);
+		ChoreGraphLayouter layouter = new ChoreGraphLayouter(chores);
+		layouter.layout(WIDTH, HEIGHT);
+		Graph graph = layouter.getGraph();
+		drawBaseline(canvas, graph.getBaseline());
 
-		float columns = chores.size() * 2 + 1;
-		float columnWidth = getWidth() / columns;
-		float range = (max - min);
-		float oneHeight = getHeight() / range;
-		for (int i = 0; i < chores.size(); i++) {
-			Chore chore = chores.get(i);
-			int column = (i + 1) * 2;
-			float height = oneHeight * chore.getDaysUntilDue();
-			drawColumn(canvas, chore.getName(), column, columnWidth, height, baseline);
+		List<Bar> bars = graph.getBars();
+		for (Bar bar: bars) {
+			drawBar(canvas, bar, graph.getBaseline());
 		}
 	}
 
-	private void drawColumn(Canvas canvas, String name, int column, float columnWidth, float height, int baseline) {
-		Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setColor(Color.BLUE);
-		float left = ((column - 1) * columnWidth);
-		float top = (height);
-		float right = (column * columnWidth);
-		float bottom = baseline;
-		canvas.drawRect(left, top, right, bottom, paint);
+	private void drawBar(Canvas canvas, Bar bar, float baseline) {
+		GradientDrawable gradient = new GradientDrawable(Orientation.TL_BR, getColors());
+		gradient.setCornerRadius(0);
+		gradient.setBounds((int) bar.getLeft(), (int) bar.getTop(),
+				(int) bar.getRight(), (int) bar.getBottom());
+		gradient.setDither(true);
+		gradient.draw(canvas);
 
-		paint.setColor(Color.RED);
-		float columnMiddle = (left + right) / 2;
-		canvas.save();
-		canvas.rotate(-90, columnMiddle, baseline);
-		canvas.drawText(name, columnMiddle, baseline, paint);
-		canvas.restore();
-	}
-
-	private void drawBaseline(Canvas canvas, int y) {
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
-		canvas.drawLine(0, y, getWidth(), y, paint);
+		float columnMiddle = (bar.getLeft() + bar.getRight()) / 2;
+		float textStart = baseline;
+		canvas.save();
+		canvas.rotate(-90, columnMiddle, textStart);
+		canvas.drawText(bar.getName(), columnMiddle, textStart, paint);
+		canvas.restore();
+	}
+
+	private int[] getColors() {
+		return new int [] { 0xffee2233, 0xffaa1100 };
+	}
+
+	private void drawBaseline(Canvas canvas, float baseline) {
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setColor(Color.WHITE);
+		canvas.drawLine(0, baseline, getWidth(), baseline, paint);
 	}
 
 }
