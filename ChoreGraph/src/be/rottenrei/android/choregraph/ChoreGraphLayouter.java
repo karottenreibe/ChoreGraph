@@ -22,7 +22,7 @@ public class ChoreGraphLayouter {
 		for (Chore chore : chores) {
 			graph.addBar(chore.getName(), chore.getDaysUntilDue());
 		}
-		graph.calculateBaseline();
+		graph.finish();
 	}
 
 	public Graph getGraph() {
@@ -59,9 +59,32 @@ public class ChoreGraphLayouter {
 			maxHeight = Math.max(maxHeight, height);
 		}
 
-		public void calculateBaseline() {
-			float unitHeight = height / (maxHeight - minHeight);
-			baseline = 0 - minHeight * unitHeight;
+		public void finish() {
+			calculateBaseline();
+			calculateTopBottom();
+		}
+
+		private void calculateBaseline() {
+			baseline = 0 - minHeight * getUnitHeight();
+		}
+
+		private void calculateTopBottom() {
+			for (Bar bar : bars) {
+				float height = bar.getHeight();
+				float top = baseline + height * getUnitHeight();
+				float bottom = baseline;
+				if (top < bottom) {
+					float tmp = top;
+					top = bottom;
+					bottom = tmp;
+				}
+				bar.setTop(top);
+				bar.setBottom(bottom);
+			}
+		}
+
+		private float getUnitHeight() {
+			return height / (maxHeight - minHeight);
 		}
 
 		public List<Bar> getBars() {
@@ -81,9 +104,15 @@ public class ChoreGraphLayouter {
 		private float bottom;
 		private float left;
 		private float right;
+		private final int height;
 
 		public Bar(String name, int height) {
 			this.name = name;
+			this.height = height;
+		}
+
+		public int getHeight() {
+			return height;
 		}
 
 		public float getTop() {

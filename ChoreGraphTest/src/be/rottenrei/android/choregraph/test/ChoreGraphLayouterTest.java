@@ -50,8 +50,8 @@ public class ChoreGraphLayouterTest extends UnitTestBase {
 		assertEquals(50f, bars.get(1).getBottom());
 		assertEquals(50f, bars.get(1).getTop());
 
-		assertEquals(50, bars.get(2).getBottom());
-		assertEquals(100, bars.get(2).getTop());
+		assertEquals(50f, bars.get(2).getBottom());
+		assertEquals(100f, bars.get(2).getTop());
 	}
 
 }
