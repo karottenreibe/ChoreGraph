@@ -1,5 +1,7 @@
 package be.rottenrei.android.choregraph.model;
 
+import java.util.Date;
+
 import be.rottenrei.android.lib.db.IModelType;
 
 /**
@@ -44,6 +46,12 @@ public class Chore implements IModelType {
 	@Override
 	public void setDbId(long id) {
 		this.dbId = id;
+	}
+
+	public int getDaysUntilDue() {
+		long oneDay = 24*3600*1000;
+		long timeUntilDue = lastTimeDone + (cycleDays * oneDay) - new Date().getTime();
+		return (int) (timeUntilDue / oneDay);
 	}
 
 }

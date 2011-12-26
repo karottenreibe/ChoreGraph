@@ -1,5 +1,7 @@
 package be.rottenrei.android.choregraph;
 
+import java.util.List;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -33,16 +35,17 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 	private void updateView(Context context, RemoteViews views) {
 		Database db = new Database(context).open();
 		ChoreTable table = db.getChoreTable();
+		List<Chore> chores;
 		try {
-			for (Chore chore : table.getAll()) {
-				RemoteViews bar = new RemoteViews(context.getPackageName(), R.layout.widget_bar);
-				bar.setTextViewText(R.id.bar, chore.getName());
-				views.addView(R.id.widget, bar);
-			}
+			chores = table.getAll();
 		} catch (DatabaseException e) {
 			ExceptionUtils.handleExceptionWithMessage(e, context, R.string.no_database, ChoreGraphWidget.class);
+			return;
+		} finally {
+			db.close();
 		}
-		db.close();
+		ChoreGraphView view = new ChoreGraphView(context, chores);
+		view.renderTo(views, R.id.widget);
 	}
 
 }
