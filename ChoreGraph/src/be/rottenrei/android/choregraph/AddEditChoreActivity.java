@@ -11,6 +11,7 @@ import be.rottenrei.android.choregraph.model.ChoreTransport;
 import be.rottenrei.android.lib.app.AddEditModelTypeActivityBase;
 import be.rottenrei.android.lib.db.DatabaseException;
 import be.rottenrei.android.lib.util.UIUtils;
+import be.rottenrei.android.lib.util.WidgetUtils;
 
 /**
  * Adds a new chore or edits an existing one.
@@ -18,6 +19,12 @@ import be.rottenrei.android.lib.util.UIUtils;
 public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	private long lastTimeDone;
+
+	@Override
+	protected void onStop() {
+		WidgetUtils.forceUpdate(this, ChoreGraphWidget.class);
+		super.onStop();
+	}
 
 	@Override
 	protected int getLayoutId() {
