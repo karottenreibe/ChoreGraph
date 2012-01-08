@@ -60,7 +60,7 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 						Integer.toString(cycleDays));
 				choreBar.setTextViewText(R.id.barText, text);
 				if (cycleDays <= 0) {
-					choreBar.setInt(R.id.barText, "setBackgroundResource", R.drawable.widget_entry_red_background);
+					choreBar.setInt(R.id.barText, "setBackgroundResource", R.drawable.button_selector_red);
 				}
 				Intent intent = new Intent(context, MarkDoneService.class);
 				intent.putExtra(MarkDoneService.DBID_EXTRA, chore.getDbId());
