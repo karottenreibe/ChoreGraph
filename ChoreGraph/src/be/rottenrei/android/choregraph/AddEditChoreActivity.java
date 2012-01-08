@@ -3,6 +3,7 @@ package be.rottenrei.android.choregraph;
 import java.util.Date;
 
 import android.os.Parcelable;
+import android.view.View;
 import android.widget.EditText;
 import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
@@ -15,6 +16,8 @@ import be.rottenrei.android.lib.util.UIUtils;
  * Adds a new chore or edits an existing one.
  */
 public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
+
+	private long lastTimeDone;
 
 	@Override
 	protected int getLayoutId() {
@@ -59,6 +62,7 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 		nameEditor.setText(chore.getName());
 		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
 		cycleDaysPicker.setText(Integer.toString(chore.getCycleDays()));
+		lastTimeDone = chore.getLastTimeDone();
 	}
 
 	@Override
@@ -68,8 +72,12 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 		chore.setName(nameEditor.getText().toString());
 		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
 		chore.setCycleDays(Integer.parseInt(cycleDaysPicker.getText().toString()));
-		chore.setLastTimeDone(new Date().getTime());
+		chore.setLastTimeDone(lastTimeDone);
 		return chore;
+	}
+
+	public void onDoneClicked(@SuppressWarnings("unused") View view) {
+		lastTimeDone = new Date().getTime();
 	}
 
 }

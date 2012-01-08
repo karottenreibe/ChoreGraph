@@ -55,19 +55,24 @@ public class ListChoresActivity extends ListActivity implements OnClickListener 
 
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(ListChoresActivity.this, AddEditChoreActivity.class);
-					intent.putExtra(ChoreTransport.EXTRA, new ChoreTransport(chore));
-					startActivityForResult(intent, 0);
+					addEdit(chore);
 				}
 			});
 		}
 
 	}
 
+	private void addEdit(Chore chore) {
+		Intent intent = new Intent(ListChoresActivity.this, AddEditChoreActivity.class);
+		if (chore != null) {
+			intent.putExtra(ChoreTransport.EXTRA, new ChoreTransport(chore));
+		}
+		startActivityForResult(intent, 0);
+	}
+
 	@Override
 	public void onClick(View arg0) {
-		Intent intent = new Intent(this, AddEditChoreActivity.class);
-		startActivityForResult(intent, 0);
+		addEdit(null);
 	}
 
 	@Override

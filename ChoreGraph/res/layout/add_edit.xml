@@ -12,8 +12,7 @@
 	    <EditText
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:id="@+id/nameEditor"
-	        android:text="@string/name" >
+	        android:id="@+id/nameEditor" >
 
 	        <requestFocus />
 	    </EditText>
@@ -22,8 +21,16 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:id="@+id/cycleDaysPicker"
-	        android:inputType="number"
-	        android:text="7" />
+	        android:inputType="number" />
+    
+	    <Button
+	        style="@style/button"
+	        android:layout_marginTop="30dip"
+	        android:layout_gravity="center"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/done"
+			android:onClick="onDoneClicked" />
 	
 	</LinearLayout>
     
@@ -38,14 +45,14 @@
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
 	        android:text="@string/save"
-			android:onClick="onSave" />
+			android:onClick="onSaveClicked" />
     
 	    <Button
 	        android:layout_width="0dip"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
 	        android:text="@string/cancel"
-			android:onClick="onCancel" />
+			android:onClick="onCancelClicked" />
         
     </LinearLayout>
     

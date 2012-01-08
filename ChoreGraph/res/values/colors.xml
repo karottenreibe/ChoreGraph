@@ -1,9 +1,13 @@
-
-    <resources>
-        <color name="bar_text">#fff</color>
-        <color name="widget_background_gradient1">#000</color>
-        <color name="widget_background_gradient2">#333</color>
-        <color name="widget_entry_red1">#00b22222</color>
-        <color name="widget_entry_red2">#ddb22222</color>
-        <color name="widget_background_stroke">#fff</color>
-    </resources>
+<resources>
+    <color name="bar_text">#fff</color>
+    <color name="widget_background_gradient1">#000</color>
+    <color name="widget_background_gradient2">#333</color>
+    <color name="widget_entry_red1">#00b22222</color>
+    <color name="widget_entry_red2">#ddb22222</color>
+    <color name="widget_background_stroke">#fff</color>
+	<color name="white">#ffffffff</color>
+	<color name="black">#000000</color>
+	<color name="selected">#1e90ff</color>
+	<color name="transparent">#00000000</color>
+	<color name="separator">#90909090</color>
+</resources>
