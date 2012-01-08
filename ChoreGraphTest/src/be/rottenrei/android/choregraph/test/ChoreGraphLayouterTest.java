@@ -3,15 +3,16 @@ package be.rottenrei.android.choregraph.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.rottenrei.android.choregraph.ChoreGraphLayouter;
-import be.rottenrei.android.choregraph.ChoreGraphLayouter.Bar;
-import be.rottenrei.android.choregraph.ChoreGraphLayouter.Graph;
 import be.rottenrei.android.choregraph.mock.MockChore;
 import be.rottenrei.android.choregraph.model.Chore;
+import be.rottenrei.android.choregraph.widget.ChoreGraphLayouter;
+import be.rottenrei.android.choregraph.widget.ChoreGraphLayouter.Bar;
+import be.rottenrei.android.choregraph.widget.ChoreGraphLayouter.Graph;
 import be.rottenrei.android.lib.test.base.UnitTestBase;
 
 public class ChoreGraphLayouterTest extends UnitTestBase {
 
+	private static final float BASELINE = 60f;
 	private Graph graph;
 	private List<Bar> bars;
 
@@ -19,17 +20,17 @@ public class ChoreGraphLayouterTest extends UnitTestBase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		List<Chore> chores = new ArrayList<Chore>(3);
-		for (int i = -1; i <= 1; i++) {
-			chores.add(new MockChore(i));
-		}
+		chores.add(new MockChore(-1));
+		chores.add(new MockChore(0));
+		chores.add(new MockChore(2));
 		ChoreGraphLayouter layouter = new ChoreGraphLayouter(chores);
-		layouter.layout(7, 100);
+		layouter.layout(7, 90);
 		graph = layouter.getGraph();
 		bars = graph.getBars();
 	}
 
 	public void testBaseline() {
-		assertEquals(50f, graph.getBaseline());
+		assertEquals(BASELINE, graph.getBaseline());
 	}
 
 	public void testLeftRight() {
@@ -44,14 +45,14 @@ public class ChoreGraphLayouterTest extends UnitTestBase {
 	}
 
 	public void testTopBottom() {
-		assertEquals(0f, bars.get(0).getBottom());
-		assertEquals(50f, bars.get(0).getTop());
+		assertEquals(BASELINE, bars.get(0).getBottom());
+		assertEquals(90f, bars.get(0).getTop());
 
-		assertEquals(50f, bars.get(1).getBottom());
-		assertEquals(50f, bars.get(1).getTop());
+		assertEquals(BASELINE, bars.get(1).getBottom());
+		assertEquals(BASELINE, bars.get(1).getTop());
 
-		assertEquals(50f, bars.get(2).getBottom());
-		assertEquals(100f, bars.get(2).getTop());
+		assertEquals(0f, bars.get(2).getBottom());
+		assertEquals(BASELINE, bars.get(2).getTop());
 	}
 
 }

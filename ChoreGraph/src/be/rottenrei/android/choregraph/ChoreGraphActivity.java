@@ -25,11 +25,10 @@ public class ChoreGraphActivity extends ListActivity implements OnClickListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ListView listView = getListView();
-		View headerView = getLayoutInflater().inflate(R.layout.list_header,
+		Button addButton = (Button) getLayoutInflater().inflate(R.layout.list_header,
 				listView, false);
-		Button addButton = (Button) headerView.findViewById(R.id.addButton);
+		listView.addHeaderView(addButton);
 		addButton.setOnClickListener(this);
-		listView.addHeaderView(headerView);
 
 		db = new Database(this).open();
 		ChoreTable table = db.getChoreTable();
@@ -65,7 +64,7 @@ public class ChoreGraphActivity extends ListActivity implements OnClickListener 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			ChoreTransport transport = data.getParcelableExtra(AddChoreActivity.CHORE_EXTRA);
+			ChoreTransport transport = data.getParcelableExtra(ChoreTransport.EXTRA);
 			try {
 				db.getChoreTable().insert(transport.getChore());
 			} catch (DatabaseException e) {

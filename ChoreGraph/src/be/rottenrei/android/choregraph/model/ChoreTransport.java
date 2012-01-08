@@ -8,6 +8,8 @@ import android.os.Parcelable;
  */
 public class ChoreTransport implements Parcelable {
 
+	public static final String EXTRA = ChoreTransport.class.getName() + ".chore";
+
 	private final Chore chore;
 
 	public ChoreTransport(Chore chore) {

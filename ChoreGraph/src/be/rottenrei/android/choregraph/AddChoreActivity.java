@@ -16,18 +16,16 @@ import be.rottenrei.android.lib.util.UIUtils;
  */
 public class AddChoreActivity extends Activity {
 
-	public static final String CHORE_EXTRA = AddChoreActivity.class.getName() + ".chore";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_card);
+		setContentView(R.layout.add_edit);
 		Intent intent = getIntent();
 		Chore chore = null;
 		if (savedInstanceState != null) {
-			chore = savedInstanceState.getParcelable(CHORE_EXTRA);
+			chore = savedInstanceState.getParcelable(ChoreTransport.EXTRA);
 		} else if (intent != null) {
-			chore = intent.getParcelableExtra(CHORE_EXTRA);
+			chore = intent.getParcelableExtra(ChoreTransport.EXTRA);
 		}
 		if (chore != null) {
 			setChore(chore);
@@ -37,7 +35,7 @@ public class AddChoreActivity extends Activity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putParcelable(CHORE_EXTRA, new ChoreTransport(getChore()));
+		outState.putParcelable(ChoreTransport.EXTRA, new ChoreTransport(getChore()));
 	}
 
 	public void onCancel(@SuppressWarnings("unused") View view) {
@@ -52,7 +50,7 @@ public class AddChoreActivity extends Activity {
 			return;
 		}
 		Intent intent = new Intent();
-		intent.putExtra(CHORE_EXTRA, new ChoreTransport(chore));
+		intent.putExtra(ChoreTransport.EXTRA, new ChoreTransport(chore));
 		setResult(RESULT_OK, intent);
 		finish();
 	}

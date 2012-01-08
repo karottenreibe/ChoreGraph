@@ -44,14 +44,14 @@ public class Chore implements IModelType {
 	}
 
 	@Override
-	public void setDbId(long id) {
+	public void setDbId(Long id) {
 		this.dbId = id;
 	}
 
-	public int getDaysUntilDue() {
+	public float getDaysUntilDue() {
 		long oneDay = 24*3600*1000;
 		long timeUntilDue = lastTimeDone + (cycleDays * oneDay) - new Date().getTime();
-		return (int) (timeUntilDue / oneDay);
+		return timeUntilDue / (float) oneDay;
 	}
 
 }

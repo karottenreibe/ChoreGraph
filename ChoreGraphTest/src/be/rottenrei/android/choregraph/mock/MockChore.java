@@ -12,7 +12,7 @@ public class MockChore extends Chore {
 	}
 
 	@Override
-	public int getDaysUntilDue() {
+	public float getDaysUntilDue() {
 		return daysUntilDue;
 	}
 

@@ -1,12 +1,15 @@
-package be.rottenrei.android.choregraph;
+package be.rottenrei.android.choregraph.widget;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
 import be.rottenrei.android.choregraph.model.Chore;
 
 /**
  * Layouts the graph for the {@link ChoreGraphView}.
+ * 
+ * [0,0] is in the top left corner of the widget.
  */
 public class ChoreGraphLayouter {
 
@@ -18,9 +21,11 @@ public class ChoreGraphLayouter {
 	}
 
 	public void layout(int width, int height) {
+		Log.e("be.rottenrei.flashcards.test", width + ", " + height);
 		graph = new Graph(width, height, chores.size());
 		for (Chore chore : chores) {
-			graph.addBar(chore.getName(), chore.getDaysUntilDue());
+			float percent = chore.getDaysUntilDue() / chore.getCycleDays();
+			graph.addBar(chore.getName(), chore.getDaysUntilDue(), percent);
 		}
 		graph.finish();
 	}
@@ -50,13 +55,14 @@ public class ChoreGraphLayouter {
 			barWidth = this.width / (this.size * 2 + 1);
 		}
 
-		public void addBar(String name, int height) {
+		public void addBar(String name, float height, float percent) {
 			Bar bar = new Bar(name, height);
 			bars.add(bar);
 			bar.setLeft(barWidth * (bars.size() * 2 - 1));
 			bar.setRight(barWidth * (bars.size() * 2));
 			minHeight = Math.min(minHeight, height);
 			maxHeight = Math.max(maxHeight, height);
+			bar.setPercent(percent);
 		}
 
 		public void finish() {
@@ -65,13 +71,13 @@ public class ChoreGraphLayouter {
 		}
 
 		private void calculateBaseline() {
-			baseline = 0 - minHeight * getUnitHeight();
+			baseline = maxHeight * getUnitHeight();
 		}
 
 		private void calculateTopBottom() {
 			for (Bar bar : bars) {
 				float height = bar.getHeight();
-				float top = baseline + height * getUnitHeight();
+				float top = baseline - height * getUnitHeight();
 				float bottom = baseline;
 				if (top < bottom) {
 					float tmp = top;
@@ -104,14 +110,23 @@ public class ChoreGraphLayouter {
 		private float bottom;
 		private float left;
 		private float right;
-		private final int height;
+		private final float height;
+		private float percent;
 
-		public Bar(String name, int height) {
+		public Bar(String name, float height) {
 			this.name = name;
 			this.height = height;
 		}
 
-		public int getHeight() {
+		public float getPercent() {
+			return percent;
+		}
+
+		public void setPercent(float percent) {
+			this.percent = percent;
+		}
+
+		public float getHeight() {
 			return height;
 		}
 
