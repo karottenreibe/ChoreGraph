@@ -3,6 +3,7 @@
 
     <string name="app_name">ChoreGraph</string>
     <string name="add">Add...</string>
+    <string name="add_edit_widget_button">...</string>
     <string name="name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>

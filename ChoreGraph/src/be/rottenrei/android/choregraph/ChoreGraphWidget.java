@@ -20,15 +20,14 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		// Perform this loop procedure for each App Widget that belongs to this provider
 		for (int appWidgetId : appWidgetIds) {
 			Intent intent = new Intent(context, ListChoresActivity.class);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-			// and fire it on click
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
 			views.setOnClickPendingIntent(R.id.widget, pendingIntent);
+			views.setOnClickPendingIntent(R.id.addEditButton, pendingIntent);
+
 			updateView(context, views, appWidgetManager.getAppWidgetInfo(appWidgetId));
-			// tell the AppWidgetManager to perform an update on the current app widget
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
