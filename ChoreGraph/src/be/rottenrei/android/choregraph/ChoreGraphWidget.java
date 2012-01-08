@@ -52,14 +52,20 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 			RemoteViews emptyView = new RemoteViews(context.getPackageName(), R.layout.widget_no_chores);
 			views.addView(R.id.barContainer, emptyView);
 		} else {
-			for (Chore chore : chores) {
+			for (int i = 0; i < chores.size(); i++) {
+				Chore chore = chores.get(i);
 				RemoteViews choreBar = new RemoteViews(context.getPackageName(), R.layout.widget_chore_bar);
+				int cycleDays = chore.getCycleDays();
 				CharSequence text = StringUtils.getTemplateText(context, R.string.widget_entry, chore.getName(),
-						Integer.toString(chore.getDaysUntilDue()));
+						Integer.toString(cycleDays));
 				choreBar.setTextViewText(R.id.barText, text);
-				if (chore.getDaysUntilDue() <= 0) {
+				if (cycleDays <= 0) {
 					choreBar.setInt(R.id.barText, "setBackgroundResource", R.drawable.widget_entry_red_background);
 				}
+				Intent intent = new Intent(context, MarkDoneService.class);
+				intent.putExtra(MarkDoneService.DBID_EXTRA, chore.getDbId());
+				PendingIntent pendingIntent = PendingIntent.getService(context, i, intent, 0);
+				choreBar.setOnClickPendingIntent(R.id.barText, pendingIntent);
 				views.addView(R.id.barContainer, choreBar);
 			}
 		}

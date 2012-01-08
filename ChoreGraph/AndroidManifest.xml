@@ -23,6 +23,8 @@
             android:label="@string/app_name"
             android:name=".AddEditChoreActivity" >
         </activity>
+        
+        <service android:name=".MarkDoneService" />
 
 	    <receiver android:name=".ChoreGraphWidget" >
 	        <intent-filter >
