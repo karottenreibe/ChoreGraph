@@ -22,8 +22,14 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 	}
 
 	@Override
-	protected Parcelable getParcelable(Chore chore) {
+	protected Parcelable parcel(Chore chore) {
 		return new ChoreTransport(chore);
+	}
+
+	@Override
+	protected Chore unparcel(Parcelable parcelable) {
+		ChoreTransport transport = (ChoreTransport) parcelable;
+		return transport.getChore();
 	}
 
 	@Override
@@ -33,7 +39,9 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	@Override
 	protected void persist(Chore chore) throws DatabaseException {
-		new Database(this).getChoreTable().update(chore);
+		Database db = new Database(this).open();
+		db.getChoreTable().update(chore);
+		db.close();
 	}
 
 	@Override
@@ -47,7 +55,6 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	@Override
 	protected void setModel(Chore chore) {
-		dbId = chore.getDbId();
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);
 		nameEditor.setText(chore.getName());
 		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);
@@ -57,7 +64,6 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 	@Override
 	protected Chore getModel() {
 		Chore chore = new Chore();
-		chore.setDbId(dbId);
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);
 		chore.setName(nameEditor.getText().toString());
 		EditText cycleDaysPicker = (EditText) findViewById(R.id.cycleDaysPicker);

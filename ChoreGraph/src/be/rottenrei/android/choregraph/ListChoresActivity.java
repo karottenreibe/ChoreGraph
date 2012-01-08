@@ -18,6 +18,7 @@ import be.rottenrei.android.lib.db.ModelCursorAdapterBase;
 public class ListChoresActivity extends ListActivity implements OnClickListener {
 
 	private Database db;
+	private ChoreCursorAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,8 @@ public class ListChoresActivity extends ListActivity implements OnClickListener 
 
 		db = new Database(this).open();
 		ChoreTable table = db.getChoreTable();
-		setListAdapter(new ChoreCursorAdapter(this, table));
+		adapter = new ChoreCursorAdapter(this, table);
+		setListAdapter(adapter);
 	}
 
 	@Override
@@ -71,8 +73,6 @@ public class ListChoresActivity extends ListActivity implements OnClickListener 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			ChoreTransport transport = data.getParcelableExtra(ChoreTransport.EXTRA);
-			ChoreCursorAdapter adapter = (ChoreCursorAdapter) getListAdapter();
 			adapter.getCursor().requery();
 		}
 	}
