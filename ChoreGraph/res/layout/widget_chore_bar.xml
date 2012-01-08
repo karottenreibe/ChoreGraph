@@ -5,6 +5,6 @@
 	android:singleLine="true"
 	android:textColor="@color/bar_text"
 	android:padding="5dip"
-	android:background="@color/bar_green"
+	android:background="@drawable/widget_entry_red_background"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" />

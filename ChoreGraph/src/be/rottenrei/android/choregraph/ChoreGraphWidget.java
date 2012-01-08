@@ -1,7 +1,5 @@
 package be.rottenrei.android.choregraph;
 
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import android.app.PendingIntent;
@@ -16,6 +14,7 @@ import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
 import be.rottenrei.android.lib.db.DatabaseException;
 import be.rottenrei.android.lib.util.ExceptionUtils;
+import be.rottenrei.android.lib.util.StringUtils;
 
 public class ChoreGraphWidget extends AppWidgetProvider {
 
@@ -47,16 +46,7 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 		} finally {
 			db.close();
 		}
-		chores = new LinkedList<Chore>();
-		for (int i = 0; i <= 10; i++) {
-			Chore c = new Chore();
-			c.setCycleDays(5);
-			c.setLastTimeDone(new Date().getTime() - i*24*3600*1000 + 1000);
-			float percent = c.getDaysUntilDue() / c.getCycleDays();
-			c.setName("Bar " + i + " dud " + c.getDaysUntilDue() + " p " + percent);
-			chores.add(c);
-		}
-		// TODO handle no chores case
+
 		views.removeAllViews(R.id.barContainer);
 		if (chores.isEmpty()) {
 			RemoteViews emptyView = new RemoteViews(context.getPackageName(), R.layout.widget_no_chores);
@@ -64,7 +54,12 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 		} else {
 			for (Chore chore : chores) {
 				RemoteViews choreBar = new RemoteViews(context.getPackageName(), R.layout.widget_chore_bar);
-				choreBar.setTextViewText(R.id.barText, chore.getName());
+				CharSequence text = StringUtils.getTemplateText(context, R.string.widget_entry, chore.getName(),
+						Integer.toString(chore.getDaysUntilDue()));
+				choreBar.setTextViewText(R.id.barText, text);
+				if (chore.getDaysUntilDue() <= 0) {
+					choreBar.setInt(R.id.barText, "setBackgroundResource", R.drawable.widget_entry_red_background);
+				}
 				views.addView(R.id.barContainer, choreBar);
 			}
 		}

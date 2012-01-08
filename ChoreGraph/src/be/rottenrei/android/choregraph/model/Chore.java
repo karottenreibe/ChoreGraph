@@ -48,10 +48,10 @@ public class Chore implements IModelType {
 		this.dbId = id;
 	}
 
-	public float getDaysUntilDue() {
-		long oneDay = 24*3600*1000;
-		long timeUntilDue = lastTimeDone + (cycleDays * oneDay) - new Date().getTime();
-		return timeUntilDue / (float) oneDay;
+	public int getDaysUntilDue() {
+		double oneDay = 24*3600*1000;
+		double timeUntilDue = lastTimeDone + (cycleDays * oneDay) - new Date().getTime();
+		return (int) Math.ceil(timeUntilDue / oneDay);
 	}
 
 }

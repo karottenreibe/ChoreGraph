@@ -1,9 +1,9 @@
 
     <resources>
-        <color name="bar_green">#34B4E3</color>
-        <color name="bar_red">#B22222</color>
-        <color name="bar_text">#000</color>
+        <color name="bar_text">#fff</color>
         <color name="widget_background_gradient1">#000</color>
         <color name="widget_background_gradient2">#333</color>
+        <color name="widget_entry_red1">#00b22222</color>
+        <color name="widget_entry_red2">#ddb22222</color>
         <color name="widget_background_stroke">#fff</color>
     </resources>
