@@ -13,11 +13,9 @@ import be.rottenrei.android.choregraph.db.ChoreTable;
 import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
 import be.rottenrei.android.choregraph.model.ChoreTransport;
-import be.rottenrei.android.lib.db.DatabaseException;
 import be.rottenrei.android.lib.db.ModelCursorAdapterBase;
-import be.rottenrei.android.lib.util.ExceptionUtils;
 
-public class ChoreGraphActivity extends ListActivity implements OnClickListener {
+public class ListChoresActivity extends ListActivity implements OnClickListener {
 
 	private Database db;
 
@@ -48,16 +46,25 @@ public class ChoreGraphActivity extends ListActivity implements OnClickListener 
 		}
 
 		@Override
-		protected void fillView(View view, Chore chore) {
+		protected void fillView(View view, final Chore chore) {
 			TextView nameText = (TextView) view.findViewById(R.id.nameText);
 			nameText.setText(chore.getName());
+			nameText.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(ListChoresActivity.this, AddEditChoreActivity.class);
+					intent.putExtra(ChoreTransport.EXTRA, new ChoreTransport(chore));
+					startActivityForResult(intent, 0);
+				}
+			});
 		}
 
 	}
 
 	@Override
 	public void onClick(View arg0) {
-		Intent intent = new Intent(this, AddChoreActivity.class);
+		Intent intent = new Intent(this, AddEditChoreActivity.class);
 		startActivityForResult(intent, 0);
 	}
 
@@ -65,11 +72,6 @@ public class ChoreGraphActivity extends ListActivity implements OnClickListener 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			ChoreTransport transport = data.getParcelableExtra(ChoreTransport.EXTRA);
-			try {
-				db.getChoreTable().insert(transport.getChore());
-			} catch (DatabaseException e) {
-				ExceptionUtils.handleExceptionWithMessage(e, this, R.string.no_database, ChoreGraphActivity.class);
-			}
 			ChoreCursorAdapter adapter = (ChoreCursorAdapter) getListAdapter();
 			adapter.getCursor().requery();
 		}

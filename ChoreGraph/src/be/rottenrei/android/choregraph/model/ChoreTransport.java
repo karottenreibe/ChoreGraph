@@ -27,6 +27,8 @@ public class ChoreTransport implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
+		Long dbId = chore.getDbId();
+		parcel.writeLong(dbId == null ? -1 : dbId);
 		parcel.writeString(chore.getName());
 		parcel.writeInt(chore.getCycleDays());
 		parcel.writeLong(chore.getLastTimeDone());
@@ -37,9 +39,11 @@ public class ChoreTransport implements Parcelable {
 		@Override
 		public ChoreTransport createFromParcel(Parcel parcel) {
 			Chore chore = new Chore();
+			long dbId = parcel.readLong();
+			chore.setDbId(dbId == -1 ? null : dbId);
 			chore.setName(parcel.readString());
 			chore.setCycleDays(parcel.readInt());
-			chore.setLastTimeDone(parcel.readLong());
+			chore.setLastTimeDone(dbId);
 			return new ChoreTransport(chore);
 		}
 
