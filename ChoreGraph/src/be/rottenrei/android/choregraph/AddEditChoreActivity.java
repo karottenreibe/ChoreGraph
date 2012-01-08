@@ -2,70 +2,51 @@ package be.rottenrei.android.choregraph;
 
 import java.util.Date;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import android.os.Parcelable;
 import android.widget.EditText;
 import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
 import be.rottenrei.android.choregraph.model.ChoreTransport;
+import be.rottenrei.android.lib.app.AddEditModelTypeActivityBase;
 import be.rottenrei.android.lib.db.DatabaseException;
-import be.rottenrei.android.lib.util.ExceptionUtils;
 import be.rottenrei.android.lib.util.UIUtils;
 
 /**
  * Adds a new chore or edits an existing one.
  */
-public class AddEditChoreActivity extends Activity {
-
-	private Long dbId;
+public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_edit);
-		Intent intent = getIntent();
-		Chore chore = null;
-		if (savedInstanceState != null) {
-			chore = savedInstanceState.getParcelable(ChoreTransport.EXTRA);
-		} else if (intent != null) {
-			chore = intent.getParcelableExtra(ChoreTransport.EXTRA);
-		}
-		if (chore != null) {
-			setChore(chore);
-		}
+	protected int getLayoutId() {
+		return R.layout.add_edit;
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putParcelable(ChoreTransport.EXTRA, new ChoreTransport(getChore()));
+	protected Parcelable getParcelable(Chore chore) {
+		return new ChoreTransport(chore);
 	}
 
-	public void onCancel(@SuppressWarnings("unused") View view) {
-		setResult(RESULT_CANCELED);
-		finish();
+	@Override
+	protected String getExtra() {
+		return ChoreTransport.EXTRA;
 	}
 
-	public void onSave(@SuppressWarnings("unused") View view) {
-		Chore chore = getChore();
+	@Override
+	protected void persist(Chore chore) throws DatabaseException {
+		new Database(this).getChoreTable().update(chore);
+	}
+
+	@Override
+	protected boolean validate(Chore chore) {
 		if (chore.getName().isEmpty()) {
 			UIUtils.informUser(this, R.string.no_name);
-			return;
+			return false;
 		}
-		try {
-			new Database(this).getChoreTable().update(chore);
-		} catch (DatabaseException e) {
-			ExceptionUtils.handleExceptionWithMessage(e, this, R.string.no_database, ListChoresActivity.class);
-		}
-		Intent intent = new Intent();
-		intent.putExtra(ChoreTransport.EXTRA, new ChoreTransport(chore));
-		setResult(RESULT_OK, intent);
-		finish();
+		return true;
 	}
 
-	private void setChore(Chore chore) {
+	@Override
+	protected void setModel(Chore chore) {
 		dbId = chore.getDbId();
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);
 		nameEditor.setText(chore.getName());
@@ -73,7 +54,8 @@ public class AddEditChoreActivity extends Activity {
 		cycleDaysPicker.setText(Integer.toString(chore.getCycleDays()));
 	}
 
-	private Chore getChore() {
+	@Override
+	protected Chore getModel() {
 		Chore chore = new Chore();
 		chore.setDbId(dbId);
 		EditText nameEditor = (EditText) findViewById(R.id.nameEditor);

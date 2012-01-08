@@ -7,7 +7,6 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="no_name">You need to give the chore a name</string>
-    <string name="no_database">There seems to be a problem with the database</string>
     <string name="no_chores">Click here to define some chores!</string>
     <string name="widget_entry">^1 (^2 days)</string>
 
