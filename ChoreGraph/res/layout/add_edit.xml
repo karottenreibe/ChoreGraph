@@ -23,14 +23,29 @@
 	        android:id="@+id/cycleDaysPicker"
 	        android:inputType="number" />
     
-	    <Button
-	        style="@style/button"
-	        android:layout_marginTop="30dip"
-	        android:layout_gravity="center"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/done"
-			android:onClick="onDoneClicked" />
+		<RelativeLayout
+	        android:layout_marginTop="10dip"
+	        android:padding="10dip"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" >
+    
+		    <Button
+		        style="@style/button"
+		        android:layout_alignParentRight="true"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/done"
+				android:onClick="onDoneClicked" />
+	    
+		    <Button
+		        style="@style/button"
+		        android:layout_alignParentLeft="true"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/btn_delete"
+				android:onClick="onDeleteClicked" />
+		    
+		</RelativeLayout>
 	
 	</LinearLayout>
     

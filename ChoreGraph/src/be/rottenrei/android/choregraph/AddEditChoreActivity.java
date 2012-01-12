@@ -5,6 +5,7 @@ import java.util.Date;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.EditText;
+import be.rottenrei.android.choregraph.db.ChoreTable;
 import be.rottenrei.android.choregraph.db.Database;
 import be.rottenrei.android.choregraph.model.Chore;
 import be.rottenrei.android.choregraph.model.ChoreTransport;
@@ -85,6 +86,14 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	public void onDoneClicked(@SuppressWarnings("unused") View view) {
 		lastTimeDone = new Date().getTime();
+	}
+
+	@Override
+	protected void delete(Chore model) throws DatabaseException {
+		Database db = new Database(this).open();
+		ChoreTable table = db.getChoreTable();
+		table.delete(model);
+		db.close();
 	}
 
 }
