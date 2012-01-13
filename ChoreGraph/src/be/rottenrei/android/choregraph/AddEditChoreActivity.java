@@ -98,7 +98,7 @@ public class AddEditChoreActivity extends AddEditModelTypeActivityBase<Chore> {
 
 	public void onDoneClicked(@SuppressWarnings("unused") View view) {
 		lastTimeDone = new Date().getTime();
-		fillLastDoneText(0);
+		fillLastDoneText(getModel().getCycleDays());
 	}
 
 	@Override

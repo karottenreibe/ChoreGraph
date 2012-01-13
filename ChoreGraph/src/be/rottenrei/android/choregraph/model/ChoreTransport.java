@@ -43,7 +43,7 @@ public class ChoreTransport implements Parcelable {
 			chore.setDbId(dbId == -1 ? null : dbId);
 			chore.setName(parcel.readString());
 			chore.setCycleDays(parcel.readInt());
-			chore.setLastTimeDone(dbId);
+			chore.setLastTimeDone(parcel.readLong());
 			return new ChoreTransport(chore);
 		}
 
