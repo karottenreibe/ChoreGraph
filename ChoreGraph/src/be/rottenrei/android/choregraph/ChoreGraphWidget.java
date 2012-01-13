@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -27,13 +26,13 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 			views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 			views.setOnClickPendingIntent(R.id.addEditButton, pendingIntent);
 
-			updateView(context, views, appWidgetManager.getAppWidgetInfo(appWidgetId));
+			updateView(context, views);
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 
-	private void updateView(Context context, RemoteViews views, AppWidgetProviderInfo info) {
+	private void updateView(Context context, RemoteViews views) {
 		Database db = new Database(context).open();
 		ChoreTable table = db.getChoreTable();
 		List<Chore> chores;
