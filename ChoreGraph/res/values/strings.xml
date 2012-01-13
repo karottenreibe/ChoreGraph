@@ -5,11 +5,13 @@
     <string name="add">Add...</string>
     <string name="add_edit_widget_button">...</string>
     <string name="name">Name</string>
+    <string name="due_every">Due every N days</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="done">Done!</string>
     <string name="no_name">You need to give the chore a name</string>
     <string name="no_chores">Click here to define some chores!</string>
     <string name="widget_entry">^1 (^2 days)</string>
+    <string name="last_done_at">Last done ^1, due in ^2 days</string>
 
 </resources>

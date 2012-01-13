@@ -8,20 +8,35 @@
 	    android:layout_height="fill_parent"
 	    android:orientation="vertical"
         android:layout_gravity="top" >
+		
+		<TextView
+		    android:text="@string/name"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" />
 	
 	    <EditText
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:id="@+id/nameEditor" >
-
-	        <requestFocus />
-	    </EditText>
+	        android:id="@+id/nameEditor" />
+		
+		<TextView
+		    android:text="@string/due_every"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" />
 	
 	    <EditText
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:id="@+id/cycleDaysPicker"
 	        android:inputType="number" />
+		
+		<TextView
+		    android:gravity="right"
+		    android:paddingRight="10dip"
+		    android:id="@+id/lastDoneText"
+		    android:text="@string/last_done_at"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" />
     
 		<RelativeLayout
 	        android:layout_marginTop="10dip"
