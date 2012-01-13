@@ -49,7 +49,7 @@ public class ListChoresActivity extends ListActivity implements OnClickListener 
 
 		@Override
 		protected void fillView(View view, final Chore chore) {
-			TextView nameText = (TextView) view.findViewById(R.id.nameText);
+			TextView nameText = (TextView) view.findViewById(R.id.listItemText);
 			nameText.setText(chore.getName());
 			nameText.setOnClickListener(new OnClickListener() {
 
