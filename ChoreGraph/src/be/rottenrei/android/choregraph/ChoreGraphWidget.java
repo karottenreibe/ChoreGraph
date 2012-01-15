@@ -53,11 +53,10 @@ public class ChoreGraphWidget extends AppWidgetProvider {
 			for (int i = 0; i < chores.size(); i++) {
 				Chore chore = chores.get(i);
 				RemoteViews choreBar = new RemoteViews(context.getPackageName(), R.layout.widget_chore_bar);
-				int cycleDays = chore.getCycleDays();
 				CharSequence text = StringUtils.getTemplateText(context, R.string.widget_entry, chore.getName(),
-						Integer.toString(cycleDays));
+						Integer.toString(chore.getDaysUntilDue()));
 				choreBar.setTextViewText(R.id.barText, text);
-				if (cycleDays <= 0) {
+				if (chore.getCycleDays() <= 0) {
 					choreBar.setInt(R.id.barText, "setBackgroundResource", R.drawable.button_selector_red);
 				}
 				Intent intent = new Intent(context, MarkDoneService.class);

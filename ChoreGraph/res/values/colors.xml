@@ -1,6 +1,5 @@
 <resources>
     <color name="bar_text">#fff</color>
-    <color name="widget_background">#55000000</color>
     <color name="widget_entry_red1">#00b22222</color>
     <color name="widget_entry_red2">#ddb22222</color>
 	<color name="white">#ffffffff</color>

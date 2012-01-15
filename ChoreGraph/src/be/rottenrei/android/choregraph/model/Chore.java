@@ -49,9 +49,14 @@ public class Chore implements IModelType {
 	}
 
 	public int getDaysUntilDue() {
-		double oneDay = 24*3600*1000;
-		double timeUntilDue = lastTimeDone + (cycleDays * oneDay) - new Date().getTime();
-		return (int) Math.ceil(timeUntilDue / oneDay);
+		return getDaysUntilDue(new Date().getTime(), lastTimeDone, cycleDays);
+	}
+
+	public static int getDaysUntilDue(long now, long lastTimeDone, int cycleDays) {
+		long oneDay = 24*3600*1000;
+		long nowDays = now / oneDay;
+		long thenDays = lastTimeDone / oneDay;
+		return (int) (thenDays + cycleDays - nowDays);
 	}
 
 }
